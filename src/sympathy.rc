@@ -1,0 +1,40 @@
+#define SYM_IMPT 0x53444b5fL
+
+1000 IMPT DISCARDABLE
+BEGIN
+	0x0000
+	SYM_IMPT
+END
+
+#define SYM_PRODUCT   "sympathy"
+#define SYM_DESC      "sympathy - media importer for Adobe Premiere Pro"
+#define SYM_FILE      "sympathy.prm"
+
+1 VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0x0L
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName",      "ashen one"
+            VALUE "FileDescription",  SYM_DESC
+            VALUE "FileVersion",      "1.0.0.0"
+            VALUE "InternalName",     SYM_PRODUCT
+            VALUE "LegalCopyright",   "Copyright (C) 2026 ashen one"
+            VALUE "OriginalFilename", SYM_FILE
+            VALUE "ProductName",      SYM_PRODUCT
+            VALUE "ProductVersion",   "1.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

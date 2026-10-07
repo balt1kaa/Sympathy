@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8C4F19A7-759E-4D52-BAEC-7ADF50FBFE8F}</ProjectGuid>
+    <RootNamespace>sympathy</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Label="AshenPaths">
+    <AshenRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..'))</AshenRoot>
+    <AshenCineForm Condition="'$(AshenCineForm)'==''">$(AshenRoot)\sdk\cineform-sdk-master</AshenCineForm>
+    <AshenFFmpeg Condition="'$(AshenFFmpeg)'==''">C:\ffmpeg-lgpl</AshenFFmpeg>
+    <PREMSDKBUILDPATH Condition="'$(PREMSDKBUILDPATH)'==''">$(AshenRoot)\build</PREMSDKBUILDPATH>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup>
+    <OutDir>$(PREMSDKBUILDPATH)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>sympathy</TargetName>
+    <TargetExt>.prm</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(AshenFFmpeg)\include;$(AshenCineForm)\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <TargetMachine>MachineX64</TargetMachine>
+      <ImportLibrary>$(IntDir)/$(TargetName).lib</ImportLibrary>
+      <AdditionalLibraryDirectories>$(AshenFFmpeg)\lib;$(AshenCineForm)\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>avformat.lib;avcodec.lib;avutil.lib;swscale.lib;swresample.lib;CFHDCodecStatic.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+
+      <DelayLoadDLLs>avcodec-62.dll;avformat-62.dll;avutil-60.dll;swscale-9.dll;swresample-6.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+
+      <AdditionalOptions>/PDBALTPATH:%25_PDB%25 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="async_import.cpp" />
+    <ClCompile Include="sympathy.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="sympathy.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="async_import.h" />
+    <ClInclude Include="premiere_api.h" />
+    <ClInclude Include="sympathy.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

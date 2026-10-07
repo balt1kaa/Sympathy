@@ -1,0 +1,19 @@
+sympathy bundles the FFmpeg libraries (avcodec, avformat, avutil, swscale,
+swresample) as unmodified shared libraries, under the GNU Lesser General
+Public License version 3 or later. The full licence text is in
+"ffmpeg license.txt", beside this file.
+
+Build: ffmpeg-n8.1.2-34-g9b6c8969e0-win64-lgpl-shared-8.1, release
+autobuild-2026-07-31-14-10 of https://github.com/BtbN/FFmpeg-Builds
+
+Corresponding source code for these libraries:
+https://github.com/FFmpeg/FFmpeg  (commit 9b6c8969e0, release/8.1 branch)
+
+The libraries are dynamically linked and may be replaced with your own
+compatible builds by substituting the DLLs in this folder.
+
+The version number in each filename (avcodec-62, avutil-60, and so on) is the
+library's ABI major version, not decoration. It is part of the name the plugin
+and the libraries themselves use to find each other, and it is what allows two
+plugins in the same Premiere process to ship different FFmpeg majors without
+colliding. Renaming these files will stop the plugin loading.

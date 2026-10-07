@@ -1,0 +1,13 @@
+sdk/
+build/
+src/x64/
+*.user
+redist/*.dll
+
+.deps/
+out/
+installer/tauri/node_modules/
+installer/tauri/dist/
+installer/tauri/src-tauri/target/
+installer/tauri/src-tauri/gen/
+

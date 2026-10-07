@@ -1,0 +1,48 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: installer/tauri/package-lock.json
+
+      - name: Rust
+        run: rustup toolchain install stable --profile minimal && rustup default stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: installer/tauri/src-tauri
+
+      - name: Pinned dependencies (FFmpeg, CineForm)
+        uses: actions/cache@v4
+        with:
+          path: .deps/*.zip
+          key: deps-${{ hashFiles('ci/build.ps1') }}
+
+      - name: Build
+        shell: powershell
+        run: ./ci/build.ps1
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sympathy-${{ github.sha }}
+          path: |
+            out/Sympathy Setup.exe
+            out/plugin/sympathy.prm
+          if-no-files-found: error
